@@ -1,0 +1,78 @@
+The flow according to me.
+
+
+1.    Login User or Admin 
+
+2.    Dashboard for each after log in
+
+a)    To User -> Product display with ID and Price 
+	a1-> Display Buttons to Add Product to Basket.
+	a2 -> A button to display basket and Remove Product if needed
+	a3 -> Total Bill 
+b)    To Admin -> Product Display with ID and Quantity
+	b1 -> Display text field to input into Quantity ( For addition ) 
+	b3 -> Remove Product or Row
+	b4 -> Update Price Button
+
+3.    Basket
+a)    Final Purchase and Bill 
+c)    Thank You Page
+
+4)    Store Customer Record in a table
+5)    Show Customer their current details when clicking a button
+
+**************************************************************************************
+
+TABLES 
+
+1) 
+
+CREATE TABLE ProductInfo (
+prodid number(3) NOT NULL PRIMARY KEY,
+productname varchar(20) NOT NULL,
+quantity number(4) NOT NULL, 
+price varchar2(12) NOT NULL
+);
+---------------------------------------------
+2)
+
+CREATE TABLE PurchaseInfo (
+prodid varchar(12) NOT NULL PRIMARY KEY,
+pname varchar(12) NOT NULL,
+quantity number(3) NOT NULL,
+cost number(10) NOT NULL,
+bill number(15) NOT NULL
+);
+--------------------------------------------
+3)
+create table AdminDetails
+(
+AdminID number(5) PRIMARY KEY,
+AdminName varchar(10),
+username varchar(10),
+pass varchar(10)
+);
+--------------------------------------------
+4)
+create table CustomerInfo(
+Name varchar2(8) NOT NULL,
+Email varchar2(20),
+Mobile varchar(10) NOT NULL PRIMARY KEY,
+ID varchar2(10) NOT NULL,
+Pass varchar2(10) NOT NULL,
+Address varchar(30)
+);
+
+
+***************************************
+#Special Sub Queries Used
+
+Without Values:
+
+INSERT INTO PurchaseInfo(prodid,quantity,cost,bill) VALUES (prodid,(SELECT productname FROM ProductInfo WHERE prodid=prodid1), quantity, (SELECT price FROM ProductInfo WHERE prodid=prodid1), quantity*(SELECT price FROM ProductInfo WHERE prodid=prodid1));
+UPDATE ProductInfo SET quantity = "+(quantity-purchasedquan)+" where prodid = "+ prodid1
+
+With Values:
+
+INSERT INTO PurchaseInfo(prodid,quantity,cost,bill) VALUES (1, 3, (SELECT price FROM ProductInfo WHERE prodid=1), 3*(SELECT price FROM ProductInfo WHERE prodid=1));
+UPDATE ProductInfo SET quantity =(quantity-3) where prodid = 1;
